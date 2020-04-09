@@ -17,25 +17,30 @@
 # ch(8) = acn[0] - 0.577 * acn[1] + 0.577 * acn[2] - 0.577 * acn[3]
 
 # [
-#     [1, 1 / sqrt(3), -1 / sqrt(3), 1 / sqrt(3)]
-#     [1, -1 / sqrt(3), -1 / sqrt(3), 1 / sqrt(3)]
-#     [1, 1 / sqrt(3), -1 / sqrt(3), -1 / sqrt(3)]
-#     [1, -1 / sqrt(3), -1 / sqrt(3), -1 / sqrt(3)]
-#     [1, 1 / sqrt(3), 1 / sqrt(3), 1 / sqrt(3)]
-#     [1, -1 / sqrt(3), 1 / sqrt(3), 1 / sqrt(3)]
-#     [1, 1 / sqrt(3), 1 / sqrt(3), -1 / sqrt(3)]
-#     [1, -1 / sqrt(3), 1 / sqrt(3), -1 / sqrt(3)]
-# ] * in (9行1列) = out(8
-# 行1列)
+#     [1, 1/sqrt(3), -1/sqrt(3), 1/sqrt(3)],
+#     [1, -1/sqrt(3), -1/sqrt(3), 1/sqrt(3)],
+#     [1, 1/sqrt(3), -1/sqrt(3), -1/sqrt(3)],
+#     [1, -1/sqrt(3), -1/sqrt(3), -1/sqrt(3)],
+#     [1, 1/sqrt(3), 1/sqrt(3), 1/sqrt(3)],
+#     [1, -1/sqrt(3), 1/sqrt(3), 1/sqrt(3)],
+#     [1, 1/sqrt(3), 1/sqrt(3), -1/sqrt(3)],
+#     [1, -1/sqrt(3), 1/sqrt(3), -1/sqrt(3)]
+# ] * in (4行1列) = out (8行1列)
 #
 #
 
 import numpy as np
+from math import sqrt
 
 
-def add(x: np.ndarray, y):
-    return x+y
-
-
-def div(x, y):
-    return x / y
+def matrix_for_cube_decode(order: int = 1) -> np.ndarray:
+    return np.array([
+        [1, 1 / sqrt(3), -1 / sqrt(3), 1 / sqrt(3)],
+        [1, -1 / sqrt(3), -1 / sqrt(3), 1 / sqrt(3)],
+        [1, 1 / sqrt(3), -1 / sqrt(3), -1 / sqrt(3)],
+        [1, -1 / sqrt(3), -1 / sqrt(3), -1 / sqrt(3)],
+        [1, 1 / sqrt(3), 1 / sqrt(3), 1 / sqrt(3)],
+        [1, -1 / sqrt(3), 1 / sqrt(3), 1 / sqrt(3)],
+        [1, 1 / sqrt(3), 1 / sqrt(3), -1 / sqrt(3)],
+        [1, -1 / sqrt(3), 1 / sqrt(3), -1 / sqrt(3)]
+    ])
