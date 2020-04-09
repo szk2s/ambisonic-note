@@ -30,7 +30,8 @@ class TestCoefs(object):
         assert type(coefs(random_az(), random_el())) == np.ndarray
 
     def test_shape(self):
-        assert coefs(random_az(), random_el()).shape == (9,)
+        assert coefs(random_az(), random_el(), order=1).shape == (4,)
+        assert coefs(random_az(), random_el(), order=2).shape == (9,)
 
     def test_range(self):
         result = coefs(random_az(), random_el())

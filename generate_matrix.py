@@ -1,3 +1,5 @@
+# Example of decoding 1st order ambisonic into 8ch cube speakers
+#
 # ch(1) = LFD
 # ch(2) = RFD
 # ch(3) = LBD
@@ -30,17 +32,27 @@
 #
 
 import numpy as np
-from math import sqrt, sin, cos
+from math import sqrt, sin, cos, pi, asin
 
 Rad = float  # angles in radian
 
 
-def coefs(az: Rad, el: Rad) -> np.ndarray:
+def coefs(az: Rad, el: Rad, order: int = 1) -> np.ndarray:
     """
     :param az: azimuth
     :param el: elevation
+    :param order: ambisonic order
     :return: 1 dimensional ndarray
     """
+    if order == 1:
+        return np.array([
+            1,  # acn[0], W
+            sin(az) * cos(el),  # acn[1], Y
+            sin(el),  # acn[2], Z
+            cos(az) * cos(el),  # acn[3], X
+        ])
+
+    # TODO: add 2nd and 3rd order
     return np.array([
         1,  # acn[0], W
         sin(az) * cos(el),  # acn[1], Y
@@ -55,13 +67,14 @@ def coefs(az: Rad, el: Rad) -> np.ndarray:
 
 
 def matrix_for_cube_decode(order: int = 1) -> np.ndarray:
-    return np.array([
-        [1, 1 / sqrt(3), -1 / sqrt(3), 1 / sqrt(3)],
-        [1, -1 / sqrt(3), -1 / sqrt(3), 1 / sqrt(3)],
-        [1, 1 / sqrt(3), -1 / sqrt(3), -1 / sqrt(3)],
-        [1, -1 / sqrt(3), -1 / sqrt(3), -1 / sqrt(3)],
-        [1, 1 / sqrt(3), 1 / sqrt(3), 1 / sqrt(3)],
-        [1, -1 / sqrt(3), 1 / sqrt(3), 1 / sqrt(3)],
-        [1, 1 / sqrt(3), 1 / sqrt(3), -1 / sqrt(3)],
-        [1, -1 / sqrt(3), 1 / sqrt(3), -1 / sqrt(3)]
-    ])
+    if order == 1:
+        return np.array([
+            coefs(1 / 4 * pi, -asin(1 / sqrt(3))),
+            coefs(7 / 4 * pi, -asin(1 / sqrt(3))),
+            coefs(3 / 4 * pi, -asin(1 / sqrt(3))),
+            coefs(5 / 4 * pi, -asin(1 / sqrt(3))),
+            coefs(1 / 4 * pi, asin(1 / sqrt(3))),
+            coefs(7 / 4 * pi, asin(1 / sqrt(3))),
+            coefs(3 / 4 * pi, asin(1 / sqrt(3))),
+            coefs(5 / 4 * pi, asin(1 / sqrt(3))),
+        ])
