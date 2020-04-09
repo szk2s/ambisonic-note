@@ -30,7 +30,28 @@
 #
 
 import numpy as np
-from math import sqrt
+from math import sqrt, sin, cos
+
+Rad = float  # angles in radian
+
+
+def coefs(az: Rad, el: Rad) -> np.ndarray:
+    """
+    :param az: azimuth
+    :param el: elevation
+    :return: 1 dimensional ndarray
+    """
+    return np.array([
+        1,  # acn[0], W
+        sin(az) * cos(el),  # acn[1], Y
+        sin(el),  # acn[2], Z
+        cos(az) * cos(el),  # acn[3], X
+        sqrt(3) / 2 * sin(2 * az) * (cos(el) ** 2),  # acn[4], V
+        sqrt(3) / 2 * sin(az) * sin(2 * el),  # acn[5], T
+        1 / 2 * (3 * (sin(el) ** 2) - 1),  # acn[6], R
+        sqrt(3) / 2 * cos(az) * sin(2 * el),  # acn[7], S
+        sqrt(3) / 2 * cos(2 * az) * cos(el) ** 2,  # acn[8], U
+    ])
 
 
 def matrix_for_cube_decode(order: int = 1) -> np.ndarray:

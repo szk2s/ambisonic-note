@@ -1,6 +1,8 @@
 import numpy as np
 import pytest
-from generate_matrix import matrix_for_cube_decode
+from generate_matrix import matrix_for_cube_decode, coefs
+from math import pi, asin, sqrt
+from random import random
 
 fixtures = [
     (np.array([[1, 0, 0, 0]]).T, np.array([[1, 1, 1, 1, 1, 1, 1, 1]]).T),
@@ -11,6 +13,30 @@ fixtures = [
     (np.array([[0, 0, 0, 1]]).T,
      np.array([[0.57735027, 0.57735027, -0.57735027, -0.57735027, 0.57735027, 0.57735027, -0.57735027, -0.57735027]]).T)
 ]
+
+
+def random_az():
+    return random() * 2 * pi
+
+
+def random_el():
+    return (random() - 0.5) * pi
+
+
+@pytest.mark.numpyfile
+class TestCoefs(object):
+
+    def test_is_ndarray(self):
+        assert type(coefs(random_az(), random_el())) == np.ndarray
+
+    def test_shape(self):
+        assert coefs(random_az(), random_el()).shape == (9,)
+
+    def test_range(self):
+        result = coefs(random_az(), random_el())
+        ones = np.ones(result.shape)
+        assert np.all(np.greater_equal(result, ones * -1))
+        assert np.all(np.less_equal(result, ones))
 
 
 @pytest.mark.numpyfile
