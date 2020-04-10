@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from generate_matrix import matrix_for_cube_decode, coefs
+from generate_matrix import matrix_for_cube_decode, coefs, decode
 from math import pi, asin, sqrt
 from random import random
 
@@ -50,9 +50,21 @@ class TestMatrixForCubeDecode(object):
         assert matrix_for_cube_decode(order=1).shape == (8, 4)
 
     @pytest.mark.parametrize("input_matrix,expected", fixtures)
-    def test_output(self, input_matrix: np.ndarray, expected: np.ndarray):
+    def test_decode(self, input_matrix: np.ndarray, expected: np.ndarray):
         assert input_matrix.shape == (4, 1)
-        product = np.dot(matrix_for_cube_decode(), input_matrix)
-        assert product.shape == (8, 1)
+        mat = matrix_for_cube_decode()
+        decoded = np.dot(mat, input_matrix)
+        assert decoded.shape == (8, 1)
         assert expected.shape == (8, 1)
-        np.testing.assert_array_almost_equal(product, expected)
+        np.testing.assert_array_almost_equal(decoded, expected)
+
+
+@pytest.mark.numpyfile
+class TestDecode(object):
+
+    @pytest.mark.parametrize("input_matrix,expected", fixtures)
+    def test_decode(self, input_matrix, expected):
+        result = decode(input_matrix, 1)
+        assert type(result) == np.ndarray
+        assert result.shape == (8, 1)
+        np.testing.assert_array_almost_equal(result, expected)

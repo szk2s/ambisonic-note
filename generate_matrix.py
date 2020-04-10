@@ -78,3 +78,7 @@ def matrix_for_cube_decode(order: int = 1) -> np.ndarray:
             coefs(3 / 4 * pi, asin(1 / sqrt(3))),
             coefs(5 / 4 * pi, asin(1 / sqrt(3))),
         ])
+
+
+def decode(input_matrix: np.ndarray, order: int = 1) -> np.ndarray:
+    return np.dot(matrix_for_cube_decode(order), input_matrix)
