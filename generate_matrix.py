@@ -44,15 +44,6 @@ def coefs(az: Rad, el: Rad, order: int = 1) -> np.ndarray:
     :param order: ambisonic order
     :return: 1 dimensional ndarray
     """
-    if order == 1:
-        return np.array([
-            1,  # acn[0], W
-            sin(az) * cos(el),  # acn[1], Y
-            sin(el),  # acn[2], Z
-            cos(az) * cos(el),  # acn[3], X
-        ])
-
-    # TODO: add 2nd and 3rd order
     return np.array([
         1,  # acn[0], W
         sin(az) * cos(el),  # acn[1], Y
@@ -63,21 +54,23 @@ def coefs(az: Rad, el: Rad, order: int = 1) -> np.ndarray:
         1 / 2 * (3 * (sin(el) ** 2) - 1),  # acn[6], R
         sqrt(3) / 2 * cos(az) * sin(2 * el),  # acn[7], S
         sqrt(3) / 2 * cos(2 * az) * cos(el) ** 2,  # acn[8], U
-    ])
+    ])[0:(order + 1) ** 2]
 
 
 def matrix_for_cube_decode(order: int = 1) -> np.ndarray:
-    if order == 1:
-        return np.array([
-            coefs(1 / 4 * pi, -asin(1 / sqrt(3))),
-            coefs(7 / 4 * pi, -asin(1 / sqrt(3))),
-            coefs(3 / 4 * pi, -asin(1 / sqrt(3))),
-            coefs(5 / 4 * pi, -asin(1 / sqrt(3))),
-            coefs(1 / 4 * pi, asin(1 / sqrt(3))),
-            coefs(7 / 4 * pi, asin(1 / sqrt(3))),
-            coefs(3 / 4 * pi, asin(1 / sqrt(3))),
-            coefs(5 / 4 * pi, asin(1 / sqrt(3))),
-        ])
+    def get_coefs(az: Rad, el: Rad):
+        return coefs(az, el, order)
+
+    return np.array([
+        get_coefs(1 / 4 * pi, -asin(1 / sqrt(3))),
+        get_coefs(7 / 4 * pi, -asin(1 / sqrt(3))),
+        get_coefs(3 / 4 * pi, -asin(1 / sqrt(3))),
+        get_coefs(5 / 4 * pi, -asin(1 / sqrt(3))),
+        get_coefs(1 / 4 * pi, asin(1 / sqrt(3))),
+        get_coefs(7 / 4 * pi, asin(1 / sqrt(3))),
+        get_coefs(3 / 4 * pi, asin(1 / sqrt(3))),
+        get_coefs(5 / 4 * pi, asin(1 / sqrt(3))),
+    ])
 
 
 def decode(input_matrix: np.ndarray, order: int = 1) -> np.ndarray:
