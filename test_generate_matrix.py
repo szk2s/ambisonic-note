@@ -26,18 +26,17 @@ def random_el():
 
 
 @pytest.mark.numpyfile
+@pytest.mark.parametrize("order", [0, 1, 2, 3])
 class TestCoefs(object):
 
-    @pytest.mark.parametrize("order", [0, 1, 2, 3])
     def test_is_ndarray(self, order):
         assert type(coefs(random_az(), random_el(), order)) == np.ndarray
 
-    @pytest.mark.parametrize("order", [0, 1, 2])
     def test_shape(self, order):
         assert coefs(random_az(), random_el(), order).shape == ((order + 1) ** 2,)
 
-    def test_range(self):
-        result = coefs(random_az(), random_el())
+    def test_range(self, order):
+        result = coefs(random_az(), random_el(), order)
         ones = np.ones(result.shape)
         assert np.all(np.greater_equal(result, ones * -1))
         assert np.all(np.less_equal(result, ones))
@@ -66,18 +65,20 @@ class TestMatrixForCubeDecode(object):
         assert input_matrix.shape == (4, 1)
         mat = matrix_for_cube_decode(order=2)
         decoded = np.dot(mat, np.array([[
-            1, 1, 1, 1, 1, 1, 1, 1, 1
+            1, 1, 1, 1, 1,
+            1, 1, 1, 1
         ]]).T)
         assert decoded.shape == (8, 1)
 
-    @pytest.mark.skip
     @pytest.mark.parametrize("input_matrix,expected", fixtures)
     def test_decode_3rd_order(self, input_matrix: np.ndarray, expected: np.ndarray):
         assert input_matrix.shape == (4, 1)
         mat = matrix_for_cube_decode(order=3)
         decoded = np.dot(mat, np.array([[
-            1, 1, 1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1, 1, 1
+            1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1,
+            1
         ]]).T)
         assert decoded.shape == (8, 1)
 
