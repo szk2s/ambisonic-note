@@ -9,6 +9,11 @@
 # ch(7) = LBU
 # ch(8) = RBU
 #
+# W = acn[0]
+# Y = acn[1]
+# Z = acn[2]
+# x = acn[3]
+#
 # ch(1) = acn[0] + 0.577 * acn[1] - 0.577 * acn[2] + 0.577 * acn[3]
 # ch(2) = acn[0] - 0.577 * acn[1] - 0.577 * acn[2] + 0.577 * acn[3]
 # ch(3) = acn[0] + 0.577 * acn[1] - 0.577 * acn[2] - 0.577 * acn[3]
@@ -17,19 +22,18 @@
 # ch(6) = acn[0] - 0.577 * acn[1] + 0.577 * acn[2] + 0.577 * acn[3]
 # ch(7) = acn[0] + 0.577 * acn[1] + 0.577 * acn[2] - 0.577 * acn[3]
 # ch(8) = acn[0] - 0.577 * acn[1] + 0.577 * acn[2] - 0.577 * acn[3]
-
+#
 # [
-#     [1, 1/sqrt(3), -1/sqrt(3), 1/sqrt(3)],
-#     [1, -1/sqrt(3), -1/sqrt(3), 1/sqrt(3)],
-#     [1, 1/sqrt(3), -1/sqrt(3), -1/sqrt(3)],
-#     [1, -1/sqrt(3), -1/sqrt(3), -1/sqrt(3)],
-#     [1, 1/sqrt(3), 1/sqrt(3), 1/sqrt(3)],
-#     [1, -1/sqrt(3), 1/sqrt(3), 1/sqrt(3)],
-#     [1, 1/sqrt(3), 1/sqrt(3), -1/sqrt(3)],
-#     [1, -1/sqrt(3), 1/sqrt(3), -1/sqrt(3)]
-# ] * in (4行1列) = out (8行1列)
-#
-#
+#     [1, 1 / sqrt(3), -1 / sqrt(3), 1 / sqrt(3)],
+#     [1, -1 / sqrt(3), -1 / sqrt(3), 1 / sqrt(3)],
+#     [1, 1 / sqrt(3), -1 / sqrt(3), -1 / sqrt(3)],
+#     [1, -1 / sqrt(3), -1 / sqrt(3), -1 / sqrt(3)],
+#     [1, 1 / sqrt(3), 1 / sqrt(3), 1 / sqrt(3)],
+#     [1, -1 / sqrt(3), 1 / sqrt(3), 1 / sqrt(3)],
+#     [1, 1 / sqrt(3), 1 / sqrt(3), -1 / sqrt(3)],
+#     [1, -1 / sqrt(3), 1 / sqrt(3), -1 / sqrt(3)]
+# ] * [[W], [Y], [Z], [X]]  # 4行1列
+# = [[ch(1)], [ch(2)], [ch(3)], [ch(4)], [ch(5)], [ch(6)], [ch(7)], [ch(8)]]  # 8行1列
 
 import numpy as np
 from math import sqrt, sin, cos, pi, asin
