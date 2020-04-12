@@ -33,8 +33,7 @@
 
 import numpy as np
 from math import sqrt, sin, cos, pi, asin
-
-Rad = float  # angles in radian
+from .type_definitions import Rad
 
 
 def coefs(az: Rad, el: Rad, order: int = 1) -> np.ndarray:
