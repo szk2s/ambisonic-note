@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 from .generate_matrix import matrix_for_cube_decode, coefs, decode
-from math import pi
+from math import pi, sqrt
 from random import random
 from typing import List, NamedTuple
 from .type_definitions import Rad
@@ -79,16 +79,67 @@ class TestMatrixForCubeDecode(object):
         mat = matrix_for_cube_decode(order=1)
         assert type(mat) == np.ndarray
         assert mat.shape == (8, 4)
+        a = sqrt(1 / 3)
+        np.testing.assert_array_almost_equal(
+            mat,
+            np.array([
+                [1, a, -a, a],
+                [1, -a, -a, a],
+                [1, a, -a, -a],
+                [1, -a, -a, -a],
+                [1, a, a, a],
+                [1, -a, a, a],
+                [1, a, a, -a],
+                [1, -a, a, -a]
+            ]),
+            decimal=12
+        )
 
     def test_decode_2nd_order(self) -> None:
         mat = matrix_for_cube_decode(order=2)
         assert type(mat) == np.ndarray
         assert mat.shape == (8, 9)
+        a = sqrt(1 / 3)
+        np.testing.assert_array_almost_equal(
+            mat,
+            np.array([
+                [1, a, -a, a, a, -a, 0, -a, 0],
+                [1, -a, -a, a, -a, a, 0, -a, 0],
+                [1, a, -a, -a, -a, -a, 0, a, 0],
+                [1, -a, -a, -a, a, a, 0, a, 0],
+                [1, a, a, a, a, a, 0, a, 0],
+                [1, -a, a, a, -a, -a, 0, a, 0],
+                [1, a, a, -a, -a, a, 0, -a, 0],
+                [1, -a, a, -a, a, -a, 0, -a, 0]
+
+            ]),
+            decimal=12
+        )
 
     def test_decode_3rd_order(self) -> None:
         mat = matrix_for_cube_decode(order=3)
         assert type(mat) == np.ndarray
         assert mat.shape == (8, 16)
+        a = sqrt(1 / 3)
+        b = sqrt(5 / 54)
+        c = sqrt(5 / 9)
+        d = sqrt(1 / 18)
+        e = sqrt(4 / 27)
+        np.testing.assert_array_almost_equal(
+            mat,
+            np.array([
+                [1, a, -a, a, a, -a, 0, -a, 0, b, -c, d, e, d, 0, -b],
+                [1, -a, -a, a, -a, a, 0, -a, 0, -b, c, -d, e, d, 0, -b],
+                [1, a, -a, -a, -a, -a, 0, a, 0, b, c, d, e, -d, 0, b],
+                [1, -a, -a, -a, a, a, 0, a, 0, -b, -c, -d, e, -d, 0, b],
+                [1, a, a, a, a, a, 0, a, 0, b, c, d, -e, d, 0, -b],
+                [1, -a, a, a, -a, -a, 0, a, 0, -b, -c, -d, -e, d, 0, -b],
+                [1, a, a, -a, -a, a, 0, -a, 0, b, -c, d, -e, -d, 0, b],
+                [1, -a, a, -a, a, -a, 0, -a, 0, -b, c, -d, -e, -d, 0, b]
+
+            ]),
+            decimal=12
+        )
 
 
 class TestDecode(object):
