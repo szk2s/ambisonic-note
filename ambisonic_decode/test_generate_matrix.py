@@ -3,50 +3,8 @@ import pytest
 from .generate_matrix import matrix_for_cube_decode, coefs, decode
 from math import pi, sqrt
 from random import random
-from typing import List, NamedTuple
-from .type_definitions import Rad
-
-
-class TestData(NamedTuple):
-    input: np.ndarray
-    decoded: np.ndarray
-    order: int = 1
-
-
-data_of_1st_order: List[TestData] = [
-    TestData(np.array([[1, 0, 0, 0]]).T, np.array([[1, 1, 1, 1, 1, 1, 1, 1]]).T, 1),
-    TestData(np.array([[0, 1, 0, 0]]).T,
-             np.array(
-                 [[0.57735027, -0.57735027, 0.57735027, -0.57735027, 0.57735027, -0.57735027, 0.57735027,
-                   -0.57735027]]).T,
-             1),
-    TestData(np.array([[0, 0, 1, 0]]).T,
-             np.array(
-                 [[-0.57735027, -0.57735027, -0.57735027, -0.57735027, 0.57735027, 0.57735027, 0.57735027,
-                   0.57735027]]).T,
-             1),
-    TestData(np.array([[0, 0, 0, 1]]).T,
-             np.array([[0.57735027, 0.57735027, -0.57735027, -0.57735027, 0.57735027, 0.57735027, -0.57735027,
-                        -0.57735027]]).T,
-             1)
-]
-
-data_of_2nd_order: List[TestData] = [
-    TestData(np.array([[1, 0, 0, 0, 0, 0, 0, 0, 0]]).T,
-             np.array([[1, 1, 1, 1, 1, 1, 1, 1]]).T,
-             2)
-]
-
-data_of_3rd_order: List[TestData] = [
-    TestData(np.array([[1, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0,
-                        0]]).T,
-             np.array([[1, 1, 1, 1, 1, 1, 1, 1]]).T,
-             3)
-]
-
-all_test_data = data_of_1st_order + data_of_2nd_order + data_of_3rd_order
+from .type_definitions import Rad, TestData
+from .test_data import data_for_decode_test
 
 
 def random_az() -> Rad:
@@ -144,7 +102,7 @@ class TestMatrixForCubeDecode(object):
 
 class TestDecode(object):
 
-    @pytest.mark.parametrize("test_data", all_test_data)  # type: ignore
+    @pytest.mark.parametrize("test_data", data_for_decode_test)  # type: ignore
     def test_decode(self, test_data: TestData) -> None:
         order = test_data.order
         assert test_data.input.shape == ((order + 1) ** 2, 1)
