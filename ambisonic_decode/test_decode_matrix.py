@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from .generate_matrix import matrix_for_cube_decode, coefs, decode
+from .decode_matrix import matrix_for_cube_decode, coefs, decode
 from math import pi, sqrt
 from random import random
 from .type_definitions import Rad, TestData
