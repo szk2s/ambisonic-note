@@ -64,7 +64,7 @@ class TestMatrixForCubeDecode(object):
     def test_shape(self) -> None:
         assert matrix_for_cube_decode(order=1).shape == (8, 4)
 
-    @pytest.mark.parametrize("input_matrix,expected", data_of_first_order)
+    @pytest.mark.parametrize("input_matrix,expected", data_of_first_order)  # type: ignore
     def test_decode_1st_order(self, input_matrix: np.ndarray, expected: np.ndarray) -> None:
         assert input_matrix.shape == (4, 1)
         mat = matrix_for_cube_decode(order=1)
@@ -73,7 +73,7 @@ class TestMatrixForCubeDecode(object):
         assert expected.shape == (8, 1)
         np.testing.assert_array_almost_equal(decoded, expected)
 
-    @pytest.mark.parametrize("input_matrix,expected", data_of_first_order)
+    @pytest.mark.parametrize("input_matrix,expected", data_of_first_order)  # type: ignore
     def test_decode_2nd_order(self, input_matrix: np.ndarray, expected: np.ndarray) -> None:
         assert input_matrix.shape == (4, 1)
         mat = matrix_for_cube_decode(order=2)
@@ -83,7 +83,7 @@ class TestMatrixForCubeDecode(object):
         ]]).T)
         assert decoded.shape == (8, 1)
 
-    @pytest.mark.parametrize("input_matrix,expected", data_of_first_order)
+    @pytest.mark.parametrize("input_matrix,expected", data_of_first_order)  # type: ignore
     def test_decode_3rd_order(self, input_matrix: np.ndarray, expected: np.ndarray) -> None:
         assert input_matrix.shape == (4, 1)
         mat = matrix_for_cube_decode(order=3)
@@ -98,8 +98,8 @@ class TestMatrixForCubeDecode(object):
 
 class TestDecode(object):
 
-    @pytest.mark.parametrize("input_matrix,expected", data_of_first_order)
-    def test_decode(self, input_matrix, expected) -> None:
+    @pytest.mark.parametrize("input_matrix,expected", data_of_first_order)  # type: ignore
+    def test_decode(self, input_matrix: np.ndarray, expected: np.ndarray) -> None:
         result = decode(input_matrix, 1)
         assert type(result) == np.ndarray
         assert result.shape == (8, 1)

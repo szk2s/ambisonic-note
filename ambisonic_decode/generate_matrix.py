@@ -64,7 +64,7 @@ def coefs(az: Rad, el: Rad, order: int = 1) -> np.ndarray:
 
 
 def matrix_for_cube_decode(order: int = 1) -> np.ndarray:
-    def get_coefs(az: Rad, el: Rad):
+    def get_coefs(az: Rad, el: Rad) -> np.ndarray:
         return coefs(az, el, order)
 
     return np.array([
