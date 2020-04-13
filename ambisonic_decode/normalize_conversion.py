@@ -1,17 +1,22 @@
-# indexはACN
-# SN3D[0] = sqrt(2) * maxN[0]
-# SN3D[1] = maxN[1]
-# SN3D[2] = maxN[2]
-# SN3D[3] = maxN[3]
-# SN3D[4] = sqrt(3 / 4) * maxN[4]
-# SN3D[5] = sqrt(3 / 4) * maxN[5]
-# SN3D[6] = maxN[6]
-# SN3D[7] = sqrt(3 / 4) * maxN[7]
-# SN3D[8] = sqrt(3 / 4) * maxN[8]
-# SN3D[9] = sqrt(5 / 8) * maxN[9]
-# SN3D[10] = sqrt(5 / 9) * maxN[10]
-# SN3D[11] = sqrt(32 / 45) * maxN[11]
-# SN3D[12] = maxN[12]
-# SN3D[13] = sqrt(32 / 45) * maxN[13]
-# SN3D[14] = sqrt(5 / 9) * maxN[14]
-# SN3D[15] = sqrt(5 / 8) * maxN[15]
+import numpy as np
+from math import sqrt
+
+
+def convert_fuma_to_ambix_3rd_order(fuma: np.ndarray) -> np.ndarray:
+    """
+    :param fuma: shape = (16,)
+    :return: AmbiX format. shape = (16,)
+    """
+    return np.multiply(
+        [
+            sqrt(2),  # order = 0
+            1, 1, 1,  # order = 1
+            sqrt(3 / 4), sqrt(3 / 4), 1, sqrt(3 / 4), sqrt(3 / 4),  # order = 2
+            sqrt(5 / 8), sqrt(5 / 9), sqrt(32 / 45), 1, sqrt(32 / 45), sqrt(5 / 9), sqrt(5 / 8)  # order = 3
+        ],
+        fuma[[
+            0,  # order = 0
+            2, 3, 1,  # order = 1
+            8, 6, 4, 5, 7,  # order = 2
+            15, 13, 11, 9, 10, 12, 14  # order = 3
+        ]])
